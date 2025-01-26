@@ -1,4 +1,4 @@
-package game2048rendering;
+package game2048;
 
 /** Symbolic names for the four sides of a board.
  *  @author P. N. Hilfinger */
@@ -12,19 +12,17 @@ public enum Side {
      *        * (COL0*s, ROW0*s) are the standard coordinates of the
      *          lower-left corner of the reoriented board (where s is the
      *          board size), and
-     *        * If (x, y) are the standard coordinates of a certain
-     *          square on the reoriented board, then (x+DCOL, y+DROW)
+     *        * If (c, r) are the standard coordinates of a certain
+     *          square on the reoriented board, then (c+DCOL, r+DROW)
      *          are the standard coordinates of the squares immediately
      *          above it on the reoriented board.
      *  The idea behind going to this trouble is that by using the
-     *  x() and y() methods below to translate from reoriented to
+     *  col() and row() methods below to translate from reoriented to
      *  standard coordinates, one can arrange to use exactly the same code
      *  to compute the result of tilting the board in any particular
      *  direction. */
 
-    NORTH(0, 0, 0, 1),
-    EAST(0, 1, 1, 0),
-    SOUTH(1, 1, 0, -1),
+    NORTH(0, 0, 0, 1), EAST(0, 1, 1, 0), SOUTH(1, 1, 0, -1),
     WEST(1, 0, -1, 0);
 
     /** The side that is in the direction (DCOL, DROW) from any square
@@ -34,25 +32,39 @@ public enum Side {
      *  column of the lower-left square when sitting at the board facing
      *  towards this Side. */
     Side(int col0, int row0, int dcol, int drow) {
-        this._row0 = row0;
-        this._col0 = col0;
-        this._drow = drow;
-        this._dcol = dcol;
+        this.row0 = row0;
+        this.col0 = col0;
+        this.drow = drow;
+        this.dcol = dcol;
     }
 
-    /** Return the standard x-coordinate for square (x, y) on a board
-     *  of size SIZE oriented with this Side on top. */
-    int x(int x, int y, int size) {
-        return _col0 * (size - 1) + x * _drow + y * _dcol;
+    /** Returns the side opposite of side S. */
+    static Side opposite(Side s) {
+        if (s == NORTH) {
+            return SOUTH;
+        } else if (s == SOUTH) {
+            return NORTH;
+        } else if (s == EAST) {
+            return WEST;
+        } else {
+            return EAST;
+        }
     }
 
-    /** Return the standard y-coordinate for square (x, y) on a board
+    /** Return the standard column number for square (C, R) on a board
      *  of size SIZE oriented with this Side on top. */
-    int y(int x, int y, int size) {
-        return _row0 * (size - 1) - x * _dcol + y * _drow;
+    public int col(int c, int r, int size) {
+        return col0 * (size - 1) + c * drow + r * dcol;
+    }
+
+    /** Return the standard row number for square (C, R) on a board
+     *  of size SIZE oriented with this Side on top. */
+    public int row(int c, int r, int size) {
+        return row0 * (size - 1) - c * dcol + r * drow;
     }
 
     /** Parameters describing this Side, as documented in the comment at the
      *  start of this class. */
-    private final int _row0, _col0, _drow, _dcol;
-}
+    private int row0, col0, drow, dcol;
+
+};
