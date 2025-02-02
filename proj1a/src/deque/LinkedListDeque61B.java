@@ -1,5 +1,6 @@
 package deque;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinkedListDeque61B<T> implements Deque61B{
@@ -18,33 +19,45 @@ public class LinkedListDeque61B<T> implements Deque61B{
     private int size;
 
     public LinkedListDeque61B() {
-        sentinal = new Node(null, sentinal, sentinal);
-        size = 0;
+        this.sentinal = new Node(null, null, null);
+        this.sentinal.next = this.sentinal;
+        this.sentinal.prev = this.sentinal;
+        this.size = 0;
     }
 
     @Override
     public void addFirst(Object x) {
-
+        this.sentinal.next = new Node((T) x, this.sentinal.next, this.sentinal);
+        this.sentinal.next.next.prev = this.sentinal.next;
+        this.size++;
     }
 
     @Override
     public void addLast(Object x) {
-
+        this.sentinal.prev = new Node((T) x, this.sentinal, this.sentinal.prev);
+        this.sentinal.prev.prev.next = this.sentinal.prev;
+        this.size++;
     }
 
     @Override
     public List toList() {
-        return List.of();
+        List<T> returnList = new ArrayList<>();
+        Node p = this.sentinal;
+        while (p.next != this.sentinal){
+            p = p.next;
+            returnList.add(p.item);
+        }
+        return returnList;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return this.size == 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     @Override
