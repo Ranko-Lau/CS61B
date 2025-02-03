@@ -59,4 +59,78 @@ public class LinkedListDeque61BTest {
      }
 
     // Below, you'll write your own tests for LinkedListDeque61B.
+
+    @Test
+    public void size(){
+         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+         lld1.addFirst(0);
+         lld1.addFirst(1);
+         lld1.addLast(-2);
+         lld1.addFirst(1);
+
+         assertThat(lld1.size()).isEqualTo(4);
+    }
+
+    @Test
+    public void sizeAfterRemoveToEmpty(){
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+        lld1.addFirst(0);
+        lld1.addFirst(1);
+        lld1.addLast(-2);
+        lld1.addFirst(1);
+        lld1.removeFirst();
+
+        assertThat(lld1.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void isEmptyTrue(){
+         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+         assertThat(lld1.isEmpty()).isTrue();
+    }
+
+    @Test
+    public void isEmptyFalse(){
+         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+         lld1.addFirst(1);
+
+         assertThat(lld1.isEmpty()).isFalse();
+    }
+
+    @Test
+    public void getValid(){
+         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+         lld1.addFirst(1);
+         lld1.addLast(9);
+         lld1.addFirst(3);
+
+         assertThat(lld1.get(1)).isEqualTo(1);
+    }
+
+    @Test
+    public void getOobLarge(){
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+        lld1.addFirst(1);
+        lld1.addLast(9);
+        lld1.addFirst(3);
+
+        assertThat(lld1.get(1000000000)).isEqualTo(null);
+    }
+
+    @Test
+    public void getOobNeg(){
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+        lld1.addFirst(1);
+        lld1.addLast(9);
+        lld1.addFirst(3);
+
+        assertThat(lld1.get(-1)).isEqualTo(null);
+    }
 }
