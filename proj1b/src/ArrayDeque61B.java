@@ -1,7 +1,8 @@
+import java.util.ArrayList;
 import java.util.List;
-import java.lang.Math
+import java.lang.Math;
 
-public class ArrayDeque61B <T> implements Deque61B{
+public class ArrayDeque61B <T> implements Deque61B<T>{
     private int First;
     private int Final;
     private T[] array;
@@ -17,47 +18,57 @@ public class ArrayDeque61B <T> implements Deque61B{
     }
 
     @Override
-    public void addFirst(Object x) {
-
+    public void addFirst(T x) {
+        First = Math.floorMod(First - 1, capacity);
+        array[First] = x;
+        size++;
     }
 
     @Override
-    public void addLast(Object x) {
-
+    public void addLast(T x) {
+        array[Final] = x;
+        Final = Math.floorMod(Final + 1, capacity);
+        size++;
     }
 
     @Override
     public List toList() {
+        List<T> returnList = new ArrayList<>();
         return List.of();
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return (size != 0);
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
-    public Object removeFirst() {
+    public T removeFirst() {
         return null;
     }
 
     @Override
-    public Object removeLast() {
+    public T removeLast() {
         return null;
     }
 
     @Override
-    public Object get(int index) {
-        return null;
+    public T get(int index) {
+        if (index >= size || index < 0){
+            return null;
+        }
+        else{
+           return array[Math.floorMod(First + index - 1, capacity)];
+        }
     }
 
     @Override
-    public Object getRecursive(int index) {
+    public T getRecursive(int index) {
         return null;
     }
 }
