@@ -18,6 +18,21 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         }
     }
 
+    public Node put(Node n, K key, V value){
+        if (n == null){
+            return new Node(key, value);
+        }
+        int cmp = key.compareTo(n.Key);
+        if (cmp < 0){
+            n.left = put(n.left, key, value);
+        } else if (cmp > 0) {
+            n.right = put(n.right, key, value);
+        } else{
+            n.Val = value;
+        }
+        return n;
+    }
+
     /**
      * Associates the specified value with the specified key in this map.
      * If the map already contains the specified key, replaces the key's mapping
@@ -28,7 +43,21 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public void put(K key, V value) {
+        root = put(root, key, value);
+    }
 
+    public V get(Node n, K key){
+        if (n == null){
+            return null;
+        }
+        int cmp = key.compareTo(n.Key);
+        if (cmp < 0){
+            return get(n.left, key);
+        } else if (cmp > 0) {
+            return get(n.right, key);
+        } else {
+            return n.Val;
+        }
     }
 
     /**
@@ -39,7 +68,19 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public V get(K key) {
-        return null;
+        return get(root, key);
+    }
+
+    public boolean containsKey(Node n, K key){
+        if (n == null){
+            return false;
+        }
+        if (n.Key.equals(key)){
+            return true;
+        }
+        else {
+            return containsKey(n.left, key) || containsKey(n.right, key);
+        }
     }
 
     /**
@@ -49,7 +90,14 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public boolean containsKey(K key) {
-        return false;
+        return containsKey(root, key);
+    }
+
+    public int size(Node n) {
+        if (n == null){
+            return 0;
+        }
+        return n.size + size(n.left) + size(n.right);
     }
 
     /**
@@ -57,7 +105,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public int size() {
-        return 0;
+        return size(root);
     }
 
     /**
@@ -65,7 +113,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public void clear() {
-
+        this.root = null;
     }
 
     /**
@@ -74,7 +122,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public Set<K> keySet() {
-        return Set.of();
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -87,7 +135,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public V remove(K key) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -97,6 +145,6 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
      */
     @Override
     public Iterator<K> iterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
