@@ -63,8 +63,16 @@ public class RedBlackTree<T extends Comparable<T>> {
      * @return
      */
     RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
-        return null;
+        if (node.left == null){
+            return node;
+        }
+        RBTreeNode<T> x = node.left;
+        node.left = x.right;
+        x.right = node;
+        boolean t = x.isBlack;
+        x.isBlack = node.isBlack;
+        node.isBlack = t;
+        return x;
     }
 
     /**
@@ -75,8 +83,16 @@ public class RedBlackTree<T extends Comparable<T>> {
      * @return
      */
     RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
-        return null;
+        if (node.right == null){
+            return node;
+        }
+        RBTreeNode<T> x = node.right;
+        node.right = x.left;
+        x.left = node;
+        boolean t = x.isBlack;
+        x.isBlack = node.isBlack;
+        node.isBlack = t;
+        return x;
     }
 
     /**
